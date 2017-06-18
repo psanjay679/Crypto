@@ -16,8 +16,8 @@ def find_hamming_distance(string1, string2):
     h_distance = 0
 	
     for ch1, ch2 in zip(_string1, _string2):
-    	if (ch1 == '1' and ch2 == '0') or (ch1 == '0' and ch2 == '1'):
-			h_distance += 1
+        if (ch1 == '1' and ch2 == '0') or (ch1 == '0' and ch2 == '1'):
+            h_distance += 1
     return float(h_distance)
 
 # print find_hamming_distance('wokka wokka!!!', 'this is a test')
