@@ -6,6 +6,9 @@ import random
 
 INT_MIN = 0xfffff
 
+def is_printable(r):
+    return ord(r) == 10 or (32 <= ord(r) < 128)
+
 def binary_stream(string):
     return ''.join(map(lambda x: '{0:08b}'.format(ord(x)), string))
 
@@ -20,36 +23,29 @@ def find_hamming_distance(string1, string2):
             h_distance += 1
     return float(h_distance)
 
-# print find_hamming_distance('wokka wokka!!!', 'this is a test')
-
-# sys.exit()
-
 def find_key_size(string):
     sum_h_distance = 0
+    key_array = {}
     for size in range(2, 40):
         p_string = []
         index = 0
         while index * size < len(string):
-            p_string.append(string[index*size:index*(size+1)])
+            p_string.append(string[index*size:(index + 1) * size])
+            index += 1
         
         for i in range(1000):
             _str1, _str2 = p_string[random.randint(len(p_string))], p_string[random.randint(len(p_string))]
             sum_h_distance += find_hamming_distance(_str1, _str2) / size
         sum_h_distance /= 1000
 
-def find_key(string):
-    prev = 0
-    key_dict = {}
-    for keysize in range(2, 40):
-        prev = 0
-        _str1, _str2 = string[prev:keysize], string[keysize:2*keysize]
-        h_distance = find_hamming_distance(_str1, _str2) / keysize
-        key_dict.update({keysize: h_distance})
-        prev = keysize
-    key_dict = filter(lambda x: x[1] != 0, key_dict.items())
-    # print key_dict
-    # return sorted(key_dict, key=lambda x: x[1])
-    return map(lambda x: x[0], sorted(key_dict, key=lambda x: x[1]))
+        key_array.update({size : sum_h_distance})
+    return sum_h_distance
+
+
+def find_key(keysize_dict, data):
+
+    return
+
 
 '''
 # for now xor function is not needed as it's creating confusion
